@@ -10,65 +10,126 @@
     font-family: -apple-system, sans-serif;
     background: #f0f2f5;
     min-height: 100vh;
-    padding: 20px 16px;
+    padding: 16px;
   }
   .card {
     background: #fff;
     border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   }
-  .title { font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
-  .sub   { font-size: 13px; color: #888; }
+  .title { font-size: 17px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+  .sub   { font-size: 12px; color: #999; margin-bottom: 14px; }
 
   input[type=file] { display: none; }
 
+  .btn-row { display: flex; gap: 10px; }
   .btn {
-    display: block; width: 100%; padding: 15px;
+    flex: 1; padding: 13px 8px;
     border: none; border-radius: 12px;
-    font-size: 16px; font-weight: 600;
+    font-size: 14px; font-weight: 600;
     cursor: pointer; text-align: center;
-    margin-top: 10px;
   }
-  .btn-pick   { background: #1877f2; color: #fff; }
-  .btn-upload { background: #28a745; color: #fff; display: none; }
+  .btn-single { background: #1877f2; color: #fff; }
+  .btn-multi  { background: #6f42c1; color: #fff; }
+  .btn-upload {
+    display: block; width: 100%; padding: 14px;
+    border: none; border-radius: 12px;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer; background: #28a745; color: #fff;
+    margin-top: 12px; display: none;
+  }
   .btn-upload:disabled { background: #aaa; }
-
-  .preview-wrap {
-    margin-top: 14px; border-radius: 12px;
-    overflow: hidden; display: none;
-    border: 1px solid #eee;
+  .btn-clear {
+    display: none; width: 100%; padding: 10px;
+    border: 1px solid #ddd; border-radius: 10px;
+    font-size: 13px; background: #fff; color: #666;
+    cursor: pointer; margin-top: 8px;
   }
-  .preview-wrap img { width: 100%; max-height: 260px; object-fit: cover; display: block; }
-  .preview-name { padding: 8px 12px; font-size: 12px; color: #888; background: #fafafa; }
+
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .preview-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f0f0f0;
+  }
+  .preview-item img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .preview-item .remove {
+    position: absolute; top: 4px; right: 4px;
+    width: 22px; height: 22px;
+    background: rgba(0,0,0,0.55);
+    border: none; border-radius: 50%;
+    color: #fff; font-size: 14px;
+    cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    line-height: 1;
+  }
+  .preview-item .status-dot {
+    position: absolute; bottom: 5px; right: 5px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #ccc;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.8);
+  }
+  .preview-item .status-dot.uploading { background: #f59e0b; }
+  .preview-item .status-dot.done      { background: #28a745; }
+  .preview-item .status-dot.error     { background: #e53935; }
+
+  .count-label {
+    font-size: 13px; color: #666; margin-top: 10px;
+    text-align: center;
+  }
+
+  .progress-bar {
+    height: 5px; background: #e0e0e0;
+    border-radius: 4px; overflow: hidden;
+    margin-top: 10px; display: none;
+  }
+  .progress-fill {
+    height: 100%; background: #28a745; width: 0%;
+    transition: width 0.3s; border-radius: 4px;
+  }
 
   .status-box {
-    padding: 12px 14px; border-radius: 10px;
-    font-size: 14px; margin-top: 10px;
+    padding: 11px 14px; border-radius: 10px;
+    font-size: 13px; margin-top: 10px;
     background: #f8f9fa; color: #555;
-    border-left: 3px solid #ccc;
-    min-height: 44px; display: flex; align-items: center;
+    min-height: 42px; display: flex; align-items: center;
   }
   .status-box.ok      { background: #e8f5e9; border-color: #28a745; color: #1b5e20; }
   .status-box.err     { background: #fdecea; border-color: #e53935; color: #b71c1c; }
   .status-box.loading { background: #e3f2fd; border-color: #1877f2; color: #0d47a1; }
 
-  .result-wrap { display: none; }
-  .result-wrap img { width: 100%; border-radius: 12px; display: block; }
-  .url-box {
-    margin-top: 10px; padding: 10px 12px;
-    background: #f0f4ff; border-radius: 10px;
-    font-size: 11px; color: #1565c0;
-    word-break: break-all; line-height: 1.5;
+  .result-section { display: none; }
+  .result-title { font-size: 13px; font-weight: 600; color: #555; margin-bottom: 10px; }
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
-  .progress-bar {
-    height: 4px; background: #e0e0e0; border-radius: 4px;
-    overflow: hidden; margin-top: 10px; display: none;
+  .result-item { border-radius: 10px; overflow: hidden; background: #f0f0f0; }
+  .result-item img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+  .result-item .url-label {
+    padding: 5px 6px; font-size: 9px;
+    color: #1565c0; background: #f0f4ff;
+    word-break: break-all; line-height: 1.4;
+    cursor: pointer;
   }
-  .progress-fill {
-    height: 100%; background: #1877f2; width: 0%;
-    transition: width 0.3s; border-radius: 4px;
+  .result-item .url-label:active { background: #ddeeff; }
+
+  .copy-hint {
+    text-align: center; font-size: 11px;
+    color: #999; margin-top: 6px;
   }
 </style>
 </head>
@@ -76,22 +137,30 @@
 
 <div class="card">
   <div class="title">อัปโหลดรูปภาพ</div>
-  <div class="sub">เลือกรูปจาก Gallery แล้ว Upload ขึ้น Cloudinary</div>
+  <div class="sub">เลือกรูปเดียว หรือหลายรูปพร้อมกันได้</div>
 
-  <input type="file" id="fileInput" accept="image/*">
+  <input type="file" id="fileInputSingle" accept="image/*">
+  <input type="file" id="fileInputMulti"  accept="image/*" multiple>
 
-  <button class="btn btn-pick"
-          onclick="document.getElementById('fileInput').click()">
-    เลือกรูปจาก Gallery
-  </button>
-
-  <div class="preview-wrap" id="previewWrap">
-    <img id="preview" src="">
-    <div class="preview-name" id="previewName"></div>
+  <div class="btn-row">
+    <button class="btn btn-single"
+            onclick="document.getElementById('fileInputSingle').click()">
+      1 รูป
+    </button>
+    <button class="btn btn-multi"
+            onclick="document.getElementById('fileInputMulti').click()">
+      หลายรูป
+    </button>
   </div>
 
-  <button class="btn btn-upload" id="btnUpload" onclick="doUpload()">
-    Upload ขึ้น Cloudinary
+  <div class="preview-grid" id="previewGrid"></div>
+  <div class="count-label" id="countLabel"></div>
+
+  <button class="btn-upload" id="btnUpload" onclick="doUploadAll()">
+    Upload ทั้งหมด
+  </button>
+  <button class="btn-clear" id="btnClear" onclick="clearAll()">
+    ล้างทั้งหมด
   </button>
 
   <div class="progress-bar" id="progressBar">
@@ -101,15 +170,17 @@
   <div class="status-box" id="statusBox">รอเลือกรูป...</div>
 </div>
 
-<div class="card result-wrap" id="resultWrap">
-  <img id="resultImg" src="">
-  <div class="url-box" id="urlBox"></div>
+<div class="card result-section" id="resultSection">
+  <div class="result-title" id="resultTitle"></div>
+  <div class="result-grid" id="resultGrid"></div>
+  <div class="copy-hint">กดที่ URL เพื่อ copy</div>
 </div>
 
 <script>
 var CLOUD  = 'dmu0r7cgl';
 var PRESET = 'Slip-StorageURL';
-var selectedFile = null;
+var files  = [];
+var uploadedUrls = [];
 
 function setStatus(msg, type) {
   var el = document.getElementById('statusBox');
@@ -117,79 +188,208 @@ function setStatus(msg, type) {
   el.className = 'status-box ' + (type || '');
 }
 
-document.getElementById('fileInput').addEventListener('change', function(e) {
-  selectedFile = e.target.files[0];
-  if (!selectedFile) return;
+function setProgress(pct) {
+  var bar  = document.getElementById('progressBar');
+  var fill = document.getElementById('progressFill');
+  if (pct === null) { bar.style.display = 'none'; return; }
+  bar.style.display = 'block';
+  fill.style.width  = pct + '%';
+}
 
-  var reader = new FileReader();
-  reader.onload = function(ev) {
-    document.getElementById('preview').src = ev.target.result;
-    document.getElementById('previewWrap').style.display = 'block';
-  };
-  reader.readAsDataURL(selectedFile);
+function updateCountLabel() {
+  var lbl = document.getElementById('countLabel');
+  lbl.textContent = files.length > 0 ? 'เลือกแล้ว ' + files.length + ' รูป' : '';
+}
 
-  document.getElementById('previewName').textContent =
-    selectedFile.name + ' — ' + (selectedFile.size / 1024).toFixed(0) + ' KB';
-  document.getElementById('btnUpload').style.display = 'block';
-  setStatus('เลือกรูปแล้ว — กด Upload ได้เลย');
+function addFiles(newFiles) {
+  Array.from(newFiles).forEach(function(f) {
+    if (!f.type.startsWith('image/')) return;
+    var idx = files.length;
+    files.push(f);
+
+    var item = document.createElement('div');
+    item.className = 'preview-item';
+    item.id = 'item-' + idx;
+
+    var img = document.createElement('img');
+    var dot = document.createElement('div');
+    dot.className = 'status-dot';
+    dot.id = 'dot-' + idx;
+
+    var rmBtn = document.createElement('button');
+    rmBtn.className = 'remove';
+    rmBtn.textContent = '×';
+    rmBtn.onclick = (function(i) {
+      return function() { removeFile(i); };
+    })(idx);
+
+    var reader = new FileReader();
+    reader.onload = function(ev) { img.src = ev.target.result; };
+    reader.readAsDataURL(f);
+
+    item.appendChild(img);
+    item.appendChild(dot);
+    item.appendChild(rmBtn);
+    document.getElementById('previewGrid').appendChild(item);
+  });
+
+  updateCountLabel();
+  var hasFiles = files.filter(function(f) { return f !== null; }).length > 0;
+  document.getElementById('btnUpload').style.display = hasFiles ? 'block' : 'none';
+  document.getElementById('btnClear').style.display  = hasFiles ? 'block' : 'none';
+  if (hasFiles) setStatus('เลือก ' + files.length + ' รูป — กด Upload ได้เลย');
+}
+
+function removeFile(idx) {
+  files[idx] = null;
+  var item = document.getElementById('item-' + idx);
+  if (item) item.remove();
+  var remaining = files.filter(function(f) { return f !== null; }).length;
+  updateCountLabel();
+  if (remaining === 0) {
+    document.getElementById('btnUpload').style.display = 'none';
+    document.getElementById('btnClear').style.display  = 'none';
+    setStatus('รอเลือกรูป...');
+  } else {
+    setStatus('เลือก ' + remaining + ' รูป — กด Upload ได้เลย');
+  }
+}
+
+function clearAll() {
+  files = [];
+  uploadedUrls = [];
+  document.getElementById('previewGrid').innerHTML = '';
+  document.getElementById('btnUpload').style.display = 'none';
+  document.getElementById('btnClear').style.display  = 'none';
+  document.getElementById('resultSection').style.display = 'none';
+  document.getElementById('resultGrid').innerHTML = '';
+  updateCountLabel();
+  setProgress(null);
+  setStatus('รอเลือกรูป...');
+}
+
+document.getElementById('fileInputSingle').addEventListener('change', function(e) {
+  addFiles(e.target.files);
+  this.value = '';
+});
+document.getElementById('fileInputMulti').addEventListener('change', function(e) {
+  addFiles(e.target.files);
+  this.value = '';
 });
 
-function doUpload() {
-  if (!selectedFile) return;
+function uploadOne(file, idx) {
+  return new Promise(function(resolve) {
+    var dot = document.getElementById('dot-' + idx);
+    if (dot) dot.className = 'status-dot uploading';
 
-  var btn = document.getElementById('btnUpload');
-  var bar = document.getElementById('progressBar');
-  var fill = document.getElementById('progressFill');
+    var fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', PRESET);
 
-  btn.disabled = true;
-  bar.style.display = 'block';
-  fill.style.width = '5%';
-  setStatus('กำลัง upload...', 'loading');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://api.cloudinary.com/v1_1/' + CLOUD + '/image/upload');
 
-  var fd = new FormData();
-  fd.append('file', selectedFile);
-  fd.append('upload_preset', PRESET);
-
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'https://api.cloudinary.com/v1_1/' + CLOUD + '/image/upload');
-
-  xhr.upload.onprogress = function(e) {
-    if (e.lengthComputable) {
-      fill.style.width = Math.round((e.loaded / e.total) * 90) + '%';
-    }
-  };
-
-  xhr.onload = function() {
-    fill.style.width = '100%';
-    btn.disabled = false;
-    setTimeout(function() { bar.style.display = 'none'; }, 800);
-
-    try {
-      var json = JSON.parse(xhr.responseText);
-      if (json.secure_url) {
-        setStatus('Upload สำเร็จ!', 'ok');
-        document.getElementById('resultImg').src = json.secure_url;
-        document.getElementById('urlBox').textContent = json.secure_url;
-        document.getElementById('resultWrap').style.display = 'block';
-        sendToApp(json.secure_url);
-      } else {
-        setStatus('ERROR: ' + (json.error && json.error.message || JSON.stringify(json)), 'err');
-        sendToApp('ERROR:cloudinary_error');
+    xhr.onload = function() {
+      try {
+        var json = JSON.parse(xhr.responseText);
+        if (json.secure_url) {
+          if (dot) dot.className = 'status-dot done';
+          resolve({ ok: true, url: json.secure_url, idx: idx });
+        } else {
+          if (dot) dot.className = 'status-dot error';
+          resolve({ ok: false, idx: idx });
+        }
+      } catch(e) {
+        if (dot) dot.className = 'status-dot error';
+        resolve({ ok: false, idx: idx });
       }
-    } catch(e) {
-      setStatus('ERROR: parse failed', 'err');
-      sendToApp('ERROR:parse_failed');
-    }
-  };
+    };
 
-  xhr.onerror = function() {
-    btn.disabled = false;
-    bar.style.display = 'none';
-    setStatus('ERROR: network error', 'err');
-    sendToApp('ERROR:network');
-  };
+    xhr.onerror = function() {
+      if (dot) dot.className = 'status-dot error';
+      resolve({ ok: false, idx: idx });
+    };
 
-  xhr.send(fd);
+    xhr.send(fd);
+  });
+}
+
+async function doUploadAll() {
+  var toUpload = [];
+  files.forEach(function(f, i) {
+    if (f !== null) toUpload.push({ file: f, idx: i });
+  });
+  if (toUpload.length === 0) return;
+
+  document.getElementById('btnUpload').disabled = true;
+  document.getElementById('btnClear').style.display = 'none';
+  uploadedUrls = [];
+  setProgress(5);
+  setStatus('กำลัง upload ' + toUpload.length + ' รูป...', 'loading');
+
+  var done = 0;
+  for (var i = 0; i < toUpload.length; i++) {
+    var result = await uploadOne(toUpload[i].file, toUpload[i].idx);
+    done++;
+    setProgress(Math.round((done / toUpload.length) * 95));
+    if (result.ok) uploadedUrls.push(result.url);
+    setStatus('upload ' + done + '/' + toUpload.length + ' รูป...', 'loading');
+  }
+
+  setProgress(100);
+  setTimeout(function() { setProgress(null); }, 800);
+  document.getElementById('btnUpload').disabled = false;
+  document.getElementById('btnClear').style.display = 'block';
+
+  var ok  = uploadedUrls.length;
+  var all = toUpload.length;
+
+  if (ok === all) {
+    setStatus('สำเร็จทั้งหมด ' + ok + ' รูป!', 'ok');
+  } else {
+    setStatus('สำเร็จ ' + ok + '/' + all + ' รูป', ok > 0 ? 'ok' : 'err');
+  }
+
+  if (uploadedUrls.length > 0) {
+    showResults();
+    sendToApp(uploadedUrls.join(','));
+  }
+}
+
+function showResults() {
+  var grid  = document.getElementById('resultGrid');
+  var sec   = document.getElementById('resultSection');
+  var title = document.getElementById('resultTitle');
+  grid.innerHTML = '';
+  title.textContent = 'URL ที่ได้ (' + uploadedUrls.length + ' รูป) — กดเพื่อ copy';
+
+  uploadedUrls.forEach(function(url) {
+    var item = document.createElement('div');
+    item.className = 'result-item';
+
+    var img = document.createElement('img');
+    img.src = url;
+
+    var lbl = document.createElement('div');
+    lbl.className = 'url-label';
+    lbl.textContent = url.split('/').pop().substring(0, 20) + '...';
+    lbl.title = url;
+    lbl.onclick = function() {
+      navigator.clipboard && navigator.clipboard.writeText(url)
+        .then(function() {
+          lbl.textContent = 'copied!';
+          setTimeout(function() {
+            lbl.textContent = url.split('/').pop().substring(0, 20) + '...';
+          }, 1500);
+        });
+    };
+
+    item.appendChild(img);
+    item.appendChild(lbl);
+    grid.appendChild(item);
+  });
+
+  sec.style.display = 'block';
 }
 
 function sendToApp(value) {
