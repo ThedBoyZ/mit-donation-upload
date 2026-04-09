@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Upload รูปภาพ</title>
+<title>Upload Picture</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -136,8 +136,8 @@
 <body>
 
 <div class="card">
-  <div class="title">อัปโหลดรูปภาพ</div>
-  <div class="sub">เลือกรูปเดียว หรือหลายรูปพร้อมกันได้</div>
+  <div class="title">Upload Image</div>
+  <div class="sub">Select Single Image Or multiple images at once.</div>
 
   <input type="file" id="fileInputSingle" accept="image/*">
   <input type="file" id="fileInputMulti"  accept="image/*" multiple>
@@ -145,11 +145,11 @@
   <div class="btn-row">
     <button class="btn btn-single"
             onclick="document.getElementById('fileInputSingle').click()">
-      1 รูป
+      1 image
     </button>
     <button class="btn btn-multi"
             onclick="document.getElementById('fileInputMulti').click()">
-      หลายรูป
+      Multiple images
     </button>
   </div>
 
@@ -157,23 +157,23 @@
   <div class="count-label" id="countLabel"></div>
 
   <button class="btn-upload" id="btnUpload" onclick="doUploadAll()">
-    Upload ทั้งหมด
+    Upload All
   </button>
   <button class="btn-clear" id="btnClear" onclick="clearAll()">
-    ล้างทั้งหมด
+    Clear All
   </button>
 
   <div class="progress-bar" id="progressBar">
     <div class="progress-fill" id="progressFill"></div>
   </div>
 
-  <div class="status-box" id="statusBox">รอเลือกรูป...</div>
+  <div class="status-box" id="statusBox">Waiting for the photo to be selected...</div>
 </div>
 
 <div class="card result-section" id="resultSection">
   <div class="result-title" id="resultTitle"></div>
   <div class="result-grid" id="resultGrid"></div>
-  <div class="copy-hint">กดที่ URL เพื่อ copy</div>
+  <div class="copy-hint">Click the URL to copy</div>
 </div>
 
 <script>
@@ -198,7 +198,7 @@ function setProgress(pct) {
 
 function updateCountLabel() {
   var lbl = document.getElementById('countLabel');
-  lbl.textContent = files.length > 0 ? 'เลือกแล้ว ' + files.length + ' รูป' : '';
+  lbl.textContent = files.length > 0 ? 'Selected ' + files.length + ' Picture' : '';
 }
 
 function addFiles(newFiles) {
@@ -237,7 +237,7 @@ function addFiles(newFiles) {
   var hasFiles = files.filter(function(f) { return f !== null; }).length > 0;
   document.getElementById('btnUpload').style.display = hasFiles ? 'block' : 'none';
   document.getElementById('btnClear').style.display  = hasFiles ? 'block' : 'none';
-  if (hasFiles) setStatus('เลือก ' + files.length + ' รูป — กด Upload ได้เลย');
+  if (hasFiles) setStatus('Selected ' + files.length + ' Image — Click Upload now');
 }
 
 function removeFile(idx) {
@@ -249,9 +249,9 @@ function removeFile(idx) {
   if (remaining === 0) {
     document.getElementById('btnUpload').style.display = 'none';
     document.getElementById('btnClear').style.display  = 'none';
-    setStatus('รอเลือกรูป...');
+    setStatus('Waiting for the photo to be selected...');
   } else {
-    setStatus('เลือก ' + remaining + ' รูป — กด Upload ได้เลย');
+    setStatus('Select ' + remaining + ' Image — Click Upload now');
   }
 }
 
@@ -265,7 +265,7 @@ function clearAll() {
   document.getElementById('resultGrid').innerHTML = '';
   updateCountLabel();
   setProgress(null);
-  setStatus('รอเลือกรูป...');
+  setStatus('Waiting for the photo to be selected...');
 }
 
 document.getElementById('fileInputSingle').addEventListener('change', function(e) {
@@ -325,7 +325,7 @@ async function doUploadAll() {
   document.getElementById('btnClear').style.display = 'none';
   uploadedUrls = [];
   setProgress(5);
-  setStatus('กำลัง upload ' + toUpload.length + ' รูป...', 'loading');
+  setStatus('Uploading in progress ' + toUpload.length + ' Picture...', 'loading');
 
   var done = 0;
   for (var i = 0; i < toUpload.length; i++) {
@@ -333,7 +333,7 @@ async function doUploadAll() {
     done++;
     setProgress(Math.round((done / toUpload.length) * 95));
     if (result.ok) uploadedUrls.push(result.url);
-    setStatus('upload ' + done + '/' + toUpload.length + ' รูป...', 'loading');
+    setStatus('upload ' + done + '/' + toUpload.length + ' Picture...', 'loading');
   }
 
   setProgress(100);
@@ -345,9 +345,9 @@ async function doUploadAll() {
   var all = toUpload.length;
 
   if (ok === all) {
-    setStatus('สำเร็จทั้งหมด ' + ok + ' รูป!', 'ok');
+    setStatus('All Complete ' + ok + ' Picture!', 'ok');
   } else {
-    setStatus('สำเร็จ ' + ok + '/' + all + ' รูป', ok > 0 ? 'ok' : 'err');
+    setStatus('Success ' + ok + '/' + all + ' Picture', ok > 0 ? 'ok' : 'err');
   }
 
   if (uploadedUrls.length > 0) {
@@ -361,7 +361,7 @@ function showResults() {
   var sec   = document.getElementById('resultSection');
   var title = document.getElementById('resultTitle');
   grid.innerHTML = '';
-  title.textContent = 'URL ที่ได้ (' + uploadedUrls.length + ' รูป) — กดเพื่อ copy';
+  title.textContent = 'The URL obtained (' + uploadedUrls.length + ' Picture) — Click to copy';
 
   uploadedUrls.forEach(function(url) {
     var item = document.createElement('div');
